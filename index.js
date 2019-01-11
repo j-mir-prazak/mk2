@@ -4,14 +4,14 @@ var StringDecoder = require('string_decoder').StringDecoder
 var events = require('events')
 var fs = require('fs')
 var schedule = require('node-schedule')
-var omx = require('node-omxplayer')
+var omx = require('node-mplayer')
 
 var media = process.argv[2];
 
-console.log('flash drive name: ' + media);
-if ( ! media ) {
-	process.emit("SIGINT");
-	process.exit(0);
+if ( media ) {
+	console.log('flash drive name: ' + media);
+	// process.emit("SIGINT");
+	// process.exit(0);
 }
 
 
@@ -46,13 +46,10 @@ function startCycle() {
 
 	var cycle = new Array();
 
-	setupJob()
-	// var filename = "mk.mkv"
-	// console.log(filename)
-	//
-	// cycle["player"] = omx('/media/pi/'+ media + '/' + filename, 'alsa')
-	// pids.push(cycle["player"].pid)
-	// setupJob()
+	var filename = "mk.mkv"
+	if ( media ) cycle["player"] = omx('/media/pi/'+ media + '/' + filename, 'alsa')
+	else cycle["player"] = omx('assets/' + filename, 'alsa')
+	pids.push(cycle["player"].pid)
 	return cycle
 
 }
@@ -68,40 +65,35 @@ function queueHandler() {
 	queueRunning = true
 	var value = playerQueue.shift()
 	var entry = value()
-	// if ( typeof entry == 'object') {
-	// 	entry["player"].on('close', function (){
-	// 		console.log('playback ended')
-	// 		cleanPID[entry.player['pid']]
-	// 		queueHandler()
-	// 	})
-	// }
+	if ( typeof entry == 'object') {
+		entry["player"].on('close', function (){
+			console.log('playback ended')
+			cleanPID[entry.player['pid']]
+			setupJob()
+			queueHandler()
+		})
+	}
 	queueHandler()
 }
 
 // var obj = JSON.parse(fs.readFileSync('schedule.json', 'utf8'))
-var obj
 // var sch = obj.schedule
+var obj
 var sch
 
 var date
-
 
 function closestSlot(array) {
 	var times = array.concat() || false
 	if (times == false) return false
 	var slot = times.shift()
 	date = new Date()
-	console.log(slot > date.getMinutes())
 
 	if ( slot > date.getMinutes() ) {
-		console.log("first")
-		console.log(slot)
-		console.log(date.getMinutes())
 		return slot
 		}
 
 	else if ( times.length > 0 ) {
-		console.log("second")
 		return closestSlot(times)
 		}
 
