@@ -34,11 +34,13 @@ function looping {
 		PROC2=""
 	  if [ "$media" != "" ]
 		then
+			echo "Sourcing flash drive."
 			node index.js "$media" &
-			PROC2=$!
 		else
-			echo "No flash drive."
+			echo "Sourcing assets."
+			node index.js &
 		fi
+		PROC2=$!
 		trap 'kill -SIGINT $PROC2; trap SIGINT; break' SIGINT
 		trap 'kill -SIGINT $PROC2; trap SIGTERM; break' SIGTERM
 		wait
