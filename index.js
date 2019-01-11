@@ -6,6 +6,8 @@ var fs = require('fs')
 var schedule = require('node-schedule')
 var omx = require('node-mplayer')
 
+
+//parameters handling
 var media = process.argv[2];
 
 if ( media ) {
@@ -37,6 +39,17 @@ function cleanPID(pid) {
 		if ( pids[i] == pid ) pids.splice(i, 1)
 	}
 }
+
+//global vars
+
+
+var date
+// date = new Date()
+// var obj = JSON.parse(fs.readFileSync('schedule.json', 'utf8'))
+// var sch = obj.schedule
+var obj
+var sch
+
 
 
 function startCycle() {
@@ -76,13 +89,6 @@ function queueHandler() {
 	queueHandler()
 }
 
-// var obj = JSON.parse(fs.readFileSync('schedule.json', 'utf8'))
-// var sch = obj.schedule
-var obj
-var sch
-
-var date
-
 function closestSlot(array) {
 	var times = array.concat() || false
 	if (times == false) return false
@@ -117,11 +123,15 @@ function setupJob(){
 
 	date = new Date()
 	var day = sch[date.getDay()%7]
-	console.log(date.getDay()%7)
 
 	var ohour = day.ohour
 	var chour = day.chour
 	var playtimes = day.playtimes
+
+	console.log("the day is: " + date.getDay()%7)
+	console.log("first hour: " + ohour)
+	console.log("last hour: " + chour)
+
 	var job
 
 	if ( ohour > date.getHours() ) {
@@ -149,7 +159,7 @@ function setupJob(){
 
 	}
 
-	console.log(job)
+	console.log("job scheduled at: " + job)
 
 	var j = schedule.scheduleJob(job, function(fireDate){
 		console.log('new cycle enqueued')
