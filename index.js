@@ -4,7 +4,7 @@ var StringDecoder = require('string_decoder').StringDecoder
 var events = require('events')
 var fs = require('fs')
 var schedule = require('node-schedule')
-var omx = require('node-mplayer')
+var omx = require('node-omxplayer')
 
 
 //parameters handling
