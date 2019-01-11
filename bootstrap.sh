@@ -146,6 +146,6 @@ echo -e "\e[31mLIFT OFF."
 echo -e "\e[39m"
 
 
-./bibi.sh & PROC1=$!
+./mk.sh & PROC1=$!
 
 wait
