@@ -1,6 +1,5 @@
 #!/bin/bash
-CURDIR=$(dirname $0)
-cd "$CURDIR"
-echo $(date) >./tw.info
-teamviewer info >>./tw.info
-sudo mv ./tw.info /boot/tw.info
+cd /home/pi
+echo $(date) >/home/pi/tw.info
+teamviewer info >>/home/pi/tw.info
+sudo mv /home/pi/tw.info /boot/tw.info
