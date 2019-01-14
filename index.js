@@ -102,28 +102,47 @@ function numberPad(number, padding) {
 		else return recursePad(number, pad-1)
 	}
 
-	var number = number
+	var number = number || false
 	var padding = padding-1
+	if ( ! number ) return false
 	var pads = recursePad(number, padding)
 	var zeros = "0"
 	zeros = zeros.repeat(padding-pads)
 	return String(zeros + number)
 }
 
+function getDay(daynum, array) {
+	var sch = array.concat()
+	var daynum = daynum
+	var day = new Array()
+	for ( var i = 0; i < array.length; i++ ) {
+		if ( sch[i].daynum == daynum) day.push(sch[i])
+	}
+	return day
+}
 
-function openDay(daynum) {
+
+function openDay(daynum, days=false) {
+
 
 	obj = JSON.parse(fs.readFileSync('schedule.json', 'utf8'));
 	sch = obj.schedule
 	date = new Date()
 
 	var daynum = parseInt(daynum)
-	var day = sch[daynum%7]
+	//day array
+	var days = days || getDay(daynum%7, sch)
+	console.log(daynum + " " + days.length)
+
+	if ( days.length < 1 ) return openDay(daynum+1)
+	var day = days.shift()
+
 
 	var ohour = day.ohour
 	var chour = day.chour
 	if ( ohour === "" || chour === "" ) {
-		return openDay(daynum+1)
+		if ( days.length < 1 ) return openDay(daynum+1)
+		else return openDay(daynum, days)
 	}
 
 	var playtimes = day.playtimes
@@ -137,7 +156,8 @@ function openDay(daynum) {
 		var slot = closestSlot(playtimes)
 
 		if ( date.getHours() > chour || ( slot == "plushour" && date.getHours()+1 > chour ) ) {
-			return openDay(daynum+1)
+			if ( days.length < 1 ) return openDay(daynum+1)
+			else return openDay(daynum, days)
 		}
 
 		else if (  slot == "plushour" && date.getHours()+1 <= chour && date.getHours()+1 < 24  ) {
@@ -187,15 +207,6 @@ function setupJob(){
 	sch = obj.schedule
 
 	date = new Date()
-
-	var day = sch[date.getDay()]
-
-	var ohour = day.ohour
-	var chour = day.chour
-
-	console.log("the day is:\t" + numberPad(date.getDay()%7,2))
-	console.log("first hour:\t" + numberPad(ohour,2))
-	console.log("last hour:\t" + numberPad(chour,2))
 
 	var job = openDay(date.getDay())
 
