@@ -117,12 +117,13 @@ function openDay(daynum) {
 			return new Date( date.getFullYear(), date.getMonth(), date.getDate(), ohour, playtimes[0], 0, 0)
 		}
 
-		var slot = closestSlot(playtimes)
-
-		if ( date.getHours()+1 > chour ) {
+		if ( date.getHours() > chour ) {
 			console.log(date.getHours()+1 > chour)
 			return openDay(daynum+1)
 		}
+
+		var slot = closestSlot(playtimes)
+
 		if (  slot == "plushour" && date.getHours()+1 <= chour && date.getHours()+1 < 24  ) {
 			return new Date( date.getFullYear(), date.getMonth(), date.getDate()+1, date.getHours(), playtimes[0], 0, 0)
 		}
