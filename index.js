@@ -92,6 +92,29 @@ function queueHandler() {
 	queueHandler()
 }
 
+function recursePad(number, pad) {
+	var pow = Math.pow(10, pad)
+	if ( number >= pow ) {
+		return pad
+	}
+	else return recursePad(number, pad-1)
+
+}
+
+function numberPad(number, padding) {
+	var number = number
+	var padding = padding-1
+	var pads = recursePad(number, padding)
+	var zeros = "0"
+	zeros = zeros.repeat(padding-pads)
+	return String(zeros + number)
+}
+
+console.log(numberPad(2000,4))
+console.log(numberPad(200,4))
+console.log(numberPad(20,4))
+console.log(numberPad(2,4))
+
 function openDay(daynum) {
 
 	obj = JSON.parse(fs.readFileSync('schedule.json', 'utf8'));
@@ -131,7 +154,7 @@ function openDay(daynum) {
 	}
 
 	else {
-		console.log( "next day: " + sch[(daynum%7)].name )
+		console.log( "next day:\t" + sch[(daynum%7)].name )
 		var nextday = new Date( date.getFullYear(), date.getMonth(), date.getDate(), ohour, playtimes[0], 0)
 		var milis = Math.abs( (daynum) - date.getDay() )
 		milis *= (24*60*60*1000)
@@ -174,9 +197,9 @@ function setupJob(){
 	var ohour = day.ohour
 	var chour = day.chour
 
-	console.log("the day is:\t" + date.getDay()%7)
-	console.log("first hour:\t" + ohour)
-	console.log("last hour:\t" + chour)
+	console.log("the day is:\t" + numberPad(date.getDay()%7,2))
+	console.log("first hour:\t" + numberPad(ohour,2))
+	console.log("last hour:\t" + numberPad(chour,2))
 
 	var job = openDay(date.getDay())
 
