@@ -42,4 +42,8 @@ function numberPad(number, padding) {
 }
 
 
-console.log(numberPad2(200000,10))
+// console.log(numberPad2(200000,10))
+a = function() {
+	console.log(a)
+}
+a.bind(null, "chemo")()

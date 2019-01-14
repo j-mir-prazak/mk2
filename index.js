@@ -80,7 +80,7 @@ function queueHandler() {
 	var entry = value()
 	if ( typeof entry == 'object') {
 		var pid = entry.player.pid
-		entry["player"].on('close', function (){
+		entry["player"].on('close', function (pid){
 			console.log("PID"+pid + ' playback ended')
 			cleanPID(pid)
 			console.log("----------------  c y c l e  e n d e d  ----------------")
