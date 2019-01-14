@@ -1,12 +1,6 @@
 {"schedule":
 	[
-		{"daynum":0, "name":"sunday", "ohour":0,"chour":0, "playtimes":[0,15,24]},
-		{"daynum":2, "name":"tuesday", "ohour":0,"chour":0, "playtimes":[0,15,24]},
-		{"daynum":2, "name":"tuesday", "ohour":0,"chour":0, "playtimes":[0,15,24]},
-		{"daynum":2, "name":"tuesday", "ohour":0,"chour":0, "playtimes":[0,15,24]},
-		{"daynum":2, "name":"tuesday", "ohour":3,"chour":"", "playtimes":[0,15,30,45]},
-		{"daynum":2, "name":"tuesday", "ohour":"","chour":8, "playtimes":[0,15,30,45]},
-		{"daynum":3, "name":"tuesday", "ohour":"","chour":8, "playtimes":[15,30,45]},
-		{"daynum":6, "name":"tuesday", "ohour":"","chour":8, "playtimes":[15,30,45]}
+		{"daynum":0, "name":"sunday", "ohour":"","chour":"", "playtimes":[0,15,24]},
+		{"daynum":0, "name":"sunday", "ohour":1,"chour":2, "playtimes":[44]}
 	]
 }

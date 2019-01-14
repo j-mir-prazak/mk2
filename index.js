@@ -123,7 +123,10 @@ function getDay(daynum, array) {
 
 
 function openDay(daynum, days=false) {
-
+	if ( daynum > 50 ) {
+		console.log("something wrong with the schedule.json")
+		return false
+	}
 
 	obj = JSON.parse(fs.readFileSync('schedule.json', 'utf8'));
 	sch = obj.schedule
