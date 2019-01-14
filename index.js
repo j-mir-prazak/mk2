@@ -44,16 +44,12 @@ function cleanPID(pid) {
 }
 
 //global vars
-
-
 var date
 // date = new Date()
 // var obj = JSON.parse(fs.readFileSync('schedule.json', 'utf8'))
 // var sch = obj.schedule
 var obj
 var sch
-
-
 
 function startCycle() {
 
@@ -110,7 +106,7 @@ function openDay(daynum) {
 	if ( ohour === "" || chour === "" ) {
 		return openDay(daynum+1)
 	}
-	
+
 	var playtimes = day.playtimes
 
 	if ( date.getDay() == daynum ) {
