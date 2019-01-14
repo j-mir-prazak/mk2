@@ -4,7 +4,7 @@ var StringDecoder = require('string_decoder').StringDecoder
 var events = require('events')
 var fs = require('fs')
 var schedule = require('node-schedule')
-var omx = require('node-omxplayer')
+var omx = require('node-mplayer')
 
 
 //parameters handling
@@ -36,7 +36,10 @@ var pids = new Array();
 function cleanPID(pid) {
 	var pid = pid || false
 	for (var i = 0; i < pids.length; i++) {
-		if ( pids[i] == pid ) pids.splice(i, 1)
+		if ( pids[i] == pid ) {
+			pids.splice(i, 1)
+			console.log("PID"+pid+" deleted")
+		}
 	}
 }
 
@@ -60,8 +63,9 @@ function startCycle() {
 	var cycle = new Array();
 
 	var filename = "mk.mkv"
-	if ( media ) cycle["player"] = omx('/media/pi/'+ media + '/' + filename, 'alsa')
-	else cycle["player"] = omx('assets/' + filename, 'alsa')
+	// if ( media ) cycle["player"] = omx('/media/pi/'+ media + '/' + filename, 'alsa')
+	// else cycle["player"] = omx('assets/' + filename, 'alsa')
+	cycle["player"] = omx('assets/' + filename, 'alsa')
 	pids.push(cycle["player"].pid)
 	return cycle
 
@@ -79,14 +83,65 @@ function queueHandler() {
 	var value = playerQueue.shift()
 	var entry = value()
 	if ( typeof entry == 'object') {
+		var pid = entry.player.pid
 		entry["player"].on('close', function (){
-			console.log('playback ended')
-			cleanPID[entry.player['pid']]
+			console.log("PID"+pid + ' playback ended')
+			cleanPID(pid)
 			setupJob()
 			queueHandler()
-		})
+			//bind pid number - player won't exist after closing, so you won't get the pid from the Object
+		}.bind(null,pid))
 	}
 	queueHandler()
+}
+
+function openDay(daynum) {
+
+	obj = JSON.parse(fs.readFileSync('schedule.json', 'utf8'));
+	sch = obj.schedule
+	date = new Date()
+
+	var daynum = parseInt(daynum)
+	var day = sch[daynum%7]
+
+	var ohour = day.ohour
+	var chour = day.chour
+	if ( ohour === "" || chour === "" ) {
+		return openDay(daynum+1)
+	}
+
+	var playtimes = day.playtimes
+
+	if ( date.getDay() == (daynum%7) ) {
+		if ( date.getHours() < ohour ) {
+			return new Date( date.getFullYear(), date.getMonth(), date.getDate(), ohour, playtimes[0], 0, 0)
+		}
+
+		var slot = closestSlot(playtimes)
+
+		if ( slot == "plushour" && ( date.getHours()+1 > chour || date.getHours()+1 < 24 ) ) {
+			return openDay(daynum+1)
+		}
+		else if (  slot == "plushour" && date.getHours()+1 <= chour && date.getHours()+1 < 24  ) {
+			return new Date( date.getFullYear(), date.getMonth(), date.getDate()+1, date.getHours(), playtimes[0], 0, 0)
+		}
+		else {
+			return new Date( date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), slot, 0, 0)
+		}
+	}
+	else {
+
+		console.log( "next day: " + sch[(daynum%7)].name )
+		var nextday = new Date( date.getFullYear(), date.getMonth(), date.getDate(), ohour, playtimes[0], 0)
+		var milis = Math.abs( (daynum) - date.getDay() )
+		milis *= (24*60*60*1000)
+		var utc = Date.parse(nextday)
+		utc = utc + milis
+		var d = new Date()
+		d.setTime(utc)
+		return d
+	}
+	return false
 }
 
 function closestSlot(array) {
@@ -107,58 +162,24 @@ function closestSlot(array) {
 
 }
 
-function nextDay(){
-	var nday = sch[date.getDay()+1%7]
-
-	var nd_ohour = nday.ohour
-	var nd_chour = nday.chour
-	var nd_playtimes = nday.playtimes
-
-	return new Date( date.getFullYear(), date.getMonth(), date.getDate()+1, nd_ohour, nd_playtimes[0], 0, 0)
-}
-
 function setupJob(){
 	obj = JSON.parse(fs.readFileSync('schedule.json', 'utf8'));
 	sch = obj.schedule
 
 	date = new Date()
-	var day = sch[date.getDay()%7]
+
+	var day = sch[date.getDay()]
 
 	var ohour = day.ohour
 	var chour = day.chour
-	var playtimes = day.playtimes
 
 	console.log("the day is: " + date.getDay()%7)
 	console.log("first hour: " + ohour)
 	console.log("last hour: " + chour)
 
-	var job
+	var job = openDay(date.getDay())
 
-	if ( ohour > date.getHours() ) {
-		job = new Date( date.getFullYear(), date.getMonth(), date.getDate(), ohour, playtimes[0], 0, 0)
-	}
-
-	else if ( ohour <= date.getHours() && chour >= date.getHours()) {
-		var spot = closestSlot(playtimes)
-
-		if ( spot == "plushour" && date.getHours()+1 <= chour && date.getHours()+1 < 24 ) {
-			job = new Date( date.getFullYear(), date.getMonth(), date.getDate(), date.getHours()+1, playtimes[0], 0, 0)
-
-		}
-
-		else if ( spot == "plushour" && ( date.getHours()+1 > chour || date.getHours()+1 >= 24 )) {
-			job = nextDay()
-		}
-
-		else job = new Date( date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), spot, 0, 0)
-	}
-
-	else if (chour < date.getHours()) {
-
-		job = nextDay()
-
-	}
-
+	console.log(job)
 	console.log("job scheduled at: " + job)
 
 	var j = schedule.scheduleJob(job, function(fireDate){
