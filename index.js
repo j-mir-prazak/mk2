@@ -58,7 +58,7 @@ var sch
 function startCycle() {
 
 	console.log("------------------  n e w  c y c l e  ------------------")
-	console.log(new Date())
+	console.log(""+new Date())
 
 	var cycle = new Array();
 
@@ -87,6 +87,7 @@ function queueHandler() {
 		entry["player"].on('close', function (){
 			console.log("PID"+pid + ' playback ended')
 			cleanPID(pid)
+			console.log("----------------  c y c l e  e n d e d  ----------------")
 			setupJob()
 			queueHandler()
 			//bind pid number - player won't exist after closing, so you won't get the pid from the Object
@@ -117,16 +118,16 @@ function openDay(daynum) {
 			return new Date( date.getFullYear(), date.getMonth(), date.getDate(), ohour, playtimes[0], 0, 0)
 		}
 
-		if ( date.getHours() > chour ) {
-			console.log(date.getHours()+1 > chour)
+		var slot = closestSlot(playtimes)
+
+		if ( date.getHours() > chour || ( slot == "plushour" && date.getHours()+1 > chour ) ) {
 			return openDay(daynum+1)
 		}
 
-		var slot = closestSlot(playtimes)
-
-		if (  slot == "plushour" && date.getHours()+1 <= chour && date.getHours()+1 < 24  ) {
-			return new Date( date.getFullYear(), date.getMonth(), date.getDate()+1, date.getHours(), playtimes[0], 0, 0)
+		else if (  slot == "plushour" && date.getHours()+1 <= chour && date.getHours()+1 < 24  ) {
+			return new Date( date.getFullYear(), date.getMonth(), date.getDate(), date.getHours()+1, playtimes[0], 0, 0)
 		}
+
 		else {
 			return new Date( date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), slot, 0, 0)
 		}
@@ -165,6 +166,7 @@ function closestSlot(array) {
 }
 
 function setupJob(){
+	console.log("------------------  n e w  s e t u p  ------------------")
 	obj = JSON.parse(fs.readFileSync('schedule.json', 'utf8'));
 	sch = obj.schedule
 
@@ -175,13 +177,12 @@ function setupJob(){
 	var ohour = day.ohour
 	var chour = day.chour
 
-	console.log("the day is: " + date.getDay()%7)
-	console.log("first hour: " + ohour)
-	console.log("last hour: " + chour)
+	console.log("the day is:\t" + date.getDay()%7)
+	console.log("first hour:\t" + ohour)
+	console.log("last hour:\t" + chour)
 
 	var job = openDay(date.getDay())
 
-	console.log(job)
 	console.log("job scheduled at: " + job)
 
 	var j = schedule.scheduleJob(job, function(fireDate){
