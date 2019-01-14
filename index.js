@@ -110,10 +110,11 @@ function openDay(daynum) {
 	if ( ohour === "" || chour === "" ) {
 		return openDay(daynum+1)
 	}
-
+	
 	var playtimes = day.playtimes
 
-	if ( date.getDay() == (daynum%7) ) {
+	if ( date.getDay() == daynum ) {
+
 		if ( date.getHours() < ohour ) {
 			return new Date( date.getFullYear(), date.getMonth(), date.getDate(), ohour, playtimes[0], 0, 0)
 		}
@@ -132,8 +133,8 @@ function openDay(daynum) {
 			return new Date( date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), slot, 0, 0)
 		}
 	}
-	else {
 
+	else {
 		console.log( "next day: " + sch[(daynum%7)].name )
 		var nextday = new Date( date.getFullYear(), date.getMonth(), date.getDate(), ohour, playtimes[0], 0)
 		var milis = Math.abs( (daynum) - date.getDay() )
@@ -160,9 +161,9 @@ function closestSlot(array) {
 	else if ( times.length > 0 ) {
 		return closestSlot(times)
 		}
-
-	else return "plushour"
-
+	else {
+		return "plushour"
+	}
 }
 
 function setupJob(){
