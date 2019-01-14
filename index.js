@@ -92,16 +92,16 @@ function queueHandler() {
 	queueHandler()
 }
 
-function recursePad(number, pad) {
-	var pow = Math.pow(10, pad)
-	if ( number >= pow ) {
-		return pad
-	}
-	else return recursePad(number, pad-1)
-
-}
-
 function numberPad(number, padding) {
+
+	function recursePad(number, pad) {
+		var pow = Math.pow(10, pad)
+		if ( number >= pow ) {
+			return pad
+		}
+		else return recursePad(number, pad-1)
+	}
+
 	var number = number
 	var padding = padding-1
 	var pads = recursePad(number, padding)
@@ -110,10 +110,6 @@ function numberPad(number, padding) {
 	return String(zeros + number)
 }
 
-console.log(numberPad(2000,4))
-console.log(numberPad(200,4))
-console.log(numberPad(20,4))
-console.log(numberPad(2,4))
 
 function openDay(daynum) {
 
