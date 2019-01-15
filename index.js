@@ -1,3 +1,4 @@
+#!/usr/bin/node
 //modules declaration
 var spawner = require('child_process')
 var StringDecoder = require('string_decoder').StringDecoder
@@ -173,7 +174,7 @@ function openDay(daynum, days=false) {
 	}
 
 	else {
-		console.log( "next day:\t" + sch[(daynum%7)].name )
+		console.log( "next day:\t" + day.name )
 		var nextday = new Date( date.getFullYear(), date.getMonth(), date.getDate(), ohour, playtimes[0], 0)
 		var milis = Math.abs( (daynum) - date.getDay() )
 		milis *= (24*60*60*1000)

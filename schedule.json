@@ -1,6 +1,6 @@
 {"schedule":
 	[
 		{"daynum":0, "name":"sunday", "ohour":"","chour":"", "playtimes":[0,15,24]},
-		{"daynum":0, "name":"sunday", "ohour":1,"chour":2, "playtimes":[44]}
+		{"daynum":2, "name":"tuesday", "ohour":1,"chour":1, "playtimes":[44]}
 	]
 }
