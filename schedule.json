@@ -1,10 +1,10 @@
 {"schedule":
 	[
 		{"daynum":0, "name":"sunday", "ohour":"","chour":"", "playtimes":[0,15,24]},
-		{"daynum":2, "name":"tuesday", "ohour":12,"chour":17, "playtimes":[0,2,4,5,6,8,22,30,33,40,42,50,55]},
-		{"daynum":3, "name":"tuesday", "ohour":8,"chour":17, "playtimes":[0,2,4,5,6,8,22,30,33,40,42,50,55]},
-		{"daynum":4, "name":"tuesday", "ohour":12,"chour":17, "playtimes":[0,2,4,5,6,8,22,30,33,40,42,50,55]},
-		{"daynum":5, "name":"tuesday", "ohour":12,"chour":17, "playtimes":[0,2,4,5,6,8,22,30,33,40,42,50,55]},
-		{"daynum":6, "name":"tuesday", "ohour":12,"chour":17, "playtimes":[0,2,4,5,6,8,22,30,33,40,42,50,55]}
+		{"daynum":2, "name":"tuesday", "ohour":12,"chour":17, "playtimes":[0,2,4,5,6,8,9,10,11,12,14,15,22,30,32,33,37,40,42,45,47,50,55]},
+		{"daynum":3, "name":"tuesday", "ohour":8,"chour":17, "playtimes":[0,2,4,5,6,8,9,10,11,12,14,15,22,30,32,33,37,40,42,45,47,50,55]},
+		{"daynum":4, "name":"tuesday", "ohour":12,"chour":17, "playtimes":[0,2,4,5,6,8,9,10,11,12,14,15,22,30,32,33,37,40,42,45,47,50,55]},
+		{"daynum":5, "name":"tuesday", "ohour":12,"chour":17, "playtimes":[0,2,4,5,6,8,9,10,11,12,14,15,22,30,32,33,37,40,42,45,47,50,55]},
+		{"daynum":6, "name":"tuesday", "ohour":12,"chour":17, "playtimes":[0,2,4,5,6,8,9,10,11,12,14,15,22,30,32,33,37,40,42,45,47,50,55]}
 	]
 }
