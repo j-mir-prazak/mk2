@@ -30,7 +30,11 @@ function looping {
 	  echo "-----------------------------"
 	  echo ""
 	  echo ""
-		media=$(ls /media/*/ | tail -n -1)
+		m1=$(ls /media/* | tail -n -1)
+		m2=$(ls -d /media/* | tail -n 1)
+
+		# media=$(ls /media/* | tail -n -1)
+		media="$m2/$m1"
 		PROC2=""
 	  if [ "$media" != "" ]
 		then
