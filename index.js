@@ -93,23 +93,13 @@ function queueHandler() {
 	queueHandler()
 }
 
-function numberPad(number, padding) {
+function generalPad(string, padding, filler=0) {
+	var string = string
+	var padding = padding
+	var filler = String( filler )
 
-	function recursePad(number, pad) {
-		var pow = Math.pow(10, pad)
-		if ( number >= pow ) {
-			return pad
-		}
-		else return recursePad(number, pad-1)
-	}
+	return filler.repeat(padding - String( string ).length) + string
 
-	var number = number || false
-	var padding = padding-1
-	if ( ! number ) return false
-	var pads = recursePad(number, padding)
-	var zeros = "0"
-	zeros = zeros.repeat(padding-pads)
-	return String(zeros + number)
 }
 
 function getDay(daynum, array) {
