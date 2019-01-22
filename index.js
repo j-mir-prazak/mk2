@@ -64,6 +64,8 @@ function startCycle() {
 	else cycle["player"] = omx('assets/' + filename, 'alsa')
 	// cycle["player"] = omx('assets/' + filename, 'alsa')
 	pids.push(cycle["player"].pid)
+	console.log("PID"+cycle["player"].pid + ' pid added')
+	console.log("PID"+cycle["player"].pid + ' playback started')
 	return cycle
 
 }
