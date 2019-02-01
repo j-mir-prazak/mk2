@@ -4,6 +4,11 @@ cd "$CURDIR"
 
 MAINPID=$$
 
+if [ -p input.pipe ]
+then
+	rm input.pipe
+fi
+
 if [ -f output.file ]
 then
 	echo -ne "" > output.file
@@ -54,5 +59,4 @@ trap terminate SIGTERM
 tail -f output.file & PROC2=$!
 ##creates input pipe for kill command
 ./input.sh $MAINPID & PROC3=$!
-
 wait
