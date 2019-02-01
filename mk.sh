@@ -45,7 +45,6 @@ function looping {
 
 		# media=$(ls /media/* | tail -n -1)
 		media="$m2/$m1"
-		PROC2=""
 	  if [ "$media" != "" ]
 		then
 			echo "Sourcing flash drive."
@@ -67,6 +66,7 @@ function looping {
 	done
 }
 
+PROC2=""
 looping &
 PROC1=$!
 wait
