@@ -5,9 +5,9 @@ counter=0
 
 function terminate {
 
-	kill -SIGINT $PROC1 2>/dev/null
+	kill -SIGINT $PROC1
 	echo -e "KILLING SUB"
-	kill -SIGTERM $PROC1 2>/dev/null
+	kill -SIGTERM $PROC1
 	echo -e "\e[33m\n\n"
 	echo -e "-----------------------------"
 	echo -e "       VALVE TERMINATED.     "
@@ -16,7 +16,7 @@ function terminate {
 	trap SIGTERM
 	trap SIGINT
 	echo -e "KILLING MAIN"
-	kill -SIGTERM $$ 2>/dev/null
+	kill -SIGTERM $$
 	}
 
 trap terminate SIGINT
