@@ -33,11 +33,12 @@ function looping {
 	  echo ""
 	  echo ""
 		PROC2=""
-
-		m1=$(ls /media/pi/* | tail -n -1)
-		m2=$(ls -d /media/pi/* | tail -n 1)
+		m1=""
+		m2=""
+		m1=$(ls -d /media/pi/* | tail -n 1)
+		# m2=$(ls /media/pi/* | tail -n -1)
 		# media=$(ls /media/* | tail -n -1)
-		media="$m2/$m1"
+		media="$m1/$m2"
 	  if [ "$media" != "" ]
 		then
 			echo "Sourcing flash drive."
