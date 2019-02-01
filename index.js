@@ -59,7 +59,7 @@ function startCycle() {
 
 	var cycle = new Array();
 
-	var filename = "mk.mkv"
+	var filename = "stripes.mp4"
 	if ( media ) cycle["player"] = omx(media + 'video/' + filename, 'alsa')
 	else cycle["player"] = omx('assets/' + filename, 'alsa')
 	// cycle["player"] = omx('assets/' + filename, 'alsa')
