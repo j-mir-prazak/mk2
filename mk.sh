@@ -5,6 +5,11 @@ counter=0
 
 function terminate {
 
+	echo "PROC1 $PROC1"
+	echo "PROC2 $PROC2"
+	echo "PROC3 $PROC3"
+	echo "PROCMAIN $$"
+
 	kill -SIGINT $PROC1
 	echo -e "KILLING SUB"
 	kill -SIGTERM $PROC1
