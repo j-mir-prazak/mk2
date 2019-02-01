@@ -79,9 +79,6 @@ fi
 
 function terminate {
 
-	echo "PROC1 $PROC1"
-	echo "PROCMAIN $$" 
-
 	kill -SIGTERM $PROC1 2>/dev/null
 	kill -SIGINT $PROC1 2>/dev/null
 

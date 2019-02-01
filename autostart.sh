@@ -25,6 +25,12 @@ echo -e "" >> output.file
 
 function terminate {
 
+
+
+	echo "PROC1 $PROC1"
+	echo "PROC2 $PROC2"
+	echo "PROCMAIN $$"
+
 	echo -e "\e[33m\n\n" | tee -a output.file
 	echo -e "-----------------------------" | tee -a output.file
 	echo -e "    AUTOSTART TERMINATED.    " | tee -a output.file
