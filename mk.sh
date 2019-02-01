@@ -5,17 +5,9 @@ counter=0
 
 function terminate {
 
-	echo "PROC1 $PROC1"
-	echo "PROC2 $PROC2"
-	echo "PROC3 $PROC3"
-	echo "PROCMAIN $$"
-
 	kill -SIGINT $PROC1
 	echo -e "KILLING SUB"
 	kill -SIGTERM $PROC1
-	kill -SIGINT $PROC2
-	echo -e "KILLING SUB2"
-	kill -SIGTERM $PROC2
 	echo -e "\e[33m\n\n"
 	echo -e "-----------------------------"
 	echo -e "       VALVE TERMINATED.     "
@@ -40,9 +32,10 @@ function looping {
 	  echo "-----------------------------"
 	  echo ""
 	  echo ""
+		PROC2=""
+
 		m1=$(ls /media/pi/* | tail -n -1)
 		m2=$(ls -d /media/pi/* | tail -n 1)
-
 		# media=$(ls /media/* | tail -n -1)
 		media="$m2/$m1"
 	  if [ "$media" != "" ]
@@ -55,8 +48,8 @@ function looping {
 		fi
 		PROC2=$!
 
-		#trap 'kill -SIGINT $PROC2; trap SIGINT; break' SIGINT
-		#trap 'kill -SIGINT $PROC2; trap SIGTERM; break' SIGTERM
+		trap 'kill -SIGINT $PROC2; trap SIGINT; break; terminate' SIGINT
+		trap 'kill -SIGINT $PROC2; trap SIGTERM; break; terminate' SIGTERM
 		wait
 		echo ""
 	  counter=$(expr $counter + 1)
@@ -66,7 +59,6 @@ function looping {
 	done
 }
 
-PROC2=""
 looping &
 PROC1=$!
 wait
