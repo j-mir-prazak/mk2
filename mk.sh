@@ -48,8 +48,8 @@ function looping {
 		fi
 		PROC2=$!
 		echo $PROC2
-		trap 'kill -SIGINT $PROC2; trap SIGINT; break; terminate' SIGINT
-		trap 'kill -SIGINT $PROC2; trap SIGTERM; break; terminate' SIGTERM
+		trap 'echo trap; kill -SIGINT $PROC2; trap SIGINT; break' SIGINT
+		trap 'echo trap2; kill -SIGINT $PROC2; trap SIGTERM; break' SIGTERM
 		wait
 		echo ""
 	  counter=$(expr $counter + 1)
