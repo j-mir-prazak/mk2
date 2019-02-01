@@ -13,6 +13,9 @@ function terminate {
 	kill -SIGINT $PROC1
 	echo -e "KILLING SUB"
 	kill -SIGTERM $PROC1
+	kill -SIGINT $PROC2
+	echo -e "KILLING SUB2"
+	kill -SIGTERM $PROC2
 	echo -e "\e[33m\n\n"
 	echo -e "-----------------------------"
 	echo -e "       VALVE TERMINATED.     "
@@ -52,8 +55,9 @@ function looping {
 			node index.js &
 		fi
 		PROC2=$!
-		trap 'kill -SIGINT $PROC2; trap SIGINT; break' SIGINT
-		trap 'kill -SIGINT $PROC2; trap SIGTERM; break' SIGTERM
+
+		#trap 'kill -SIGINT $PROC2; trap SIGINT; break' SIGINT
+		#trap 'kill -SIGINT $PROC2; trap SIGTERM; break' SIGTERM
 		wait
 		echo ""
 	  counter=$(expr $counter + 1)
