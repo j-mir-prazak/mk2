@@ -38,7 +38,7 @@ function terminate {
 	kill -SIGTERM $PROC2
 
 	# disown $PROC3
-	kill -SIGTERM $PROC3
+	kill -SIGTERM $PROC3 2>/dev/null
 
 	trap SIGINT;
 	trap SIGTERM;
