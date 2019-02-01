@@ -47,7 +47,7 @@ function looping {
 			node index.js &
 		fi
 		PROC2=$!
-
+		echo $PROC2
 		trap 'kill -SIGINT $PROC2; trap SIGINT; break; terminate' SIGINT
 		trap 'kill -SIGINT $PROC2; trap SIGTERM; break; terminate' SIGTERM
 		wait
