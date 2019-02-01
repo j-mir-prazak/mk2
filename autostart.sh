@@ -29,6 +29,7 @@ function terminate {
 
 	echo "PROC1 $PROC1"
 	echo "PROC2 $PROC2"
+	echo "PROC3 $PROC3"
 	echo "PROCMAIN $$"
 
 	echo -e "\e[33m\n\n" | tee -a output.file
