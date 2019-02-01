@@ -6,6 +6,6 @@
 		{"daynum":3, "name":"wednesday", "ohour":"11","chour":"16", "playtimes":[0,30]},
 		{"daynum":4, "name":"thursday", "ohour":"11","chour":"16", "playtimes":[0,30]},
 		{"daynum":5, "name":"friday", "ohour":"11","chour":"16", "playtimes":[0,30]},
-		{"daynum":6, "name":"saturday", "ohour":"11","chour":"16", "playtimes":[0,30]},
+		{"daynum":6, "name":"saturday", "ohour":"11","chour":"16", "playtimes":[0,30]}
 	]
 }
